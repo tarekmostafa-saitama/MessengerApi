@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using MessengerApi.Core.DbEntities;
 using MessengerApi.Core.Repositories;
 using MessengerApi.Persistence.Identity;
-using Ninject.Infrastructure.Language;
 
 namespace MessengerApi.Persistence.Repositories
 {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using MessengerApi.Core.DbEntities;
@@ -12,7 +11,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 
-namespace MessengerAPI.Providers
+namespace MessengerApi.Providers
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {

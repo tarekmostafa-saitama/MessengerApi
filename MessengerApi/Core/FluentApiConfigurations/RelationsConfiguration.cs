@@ -2,7 +2,6 @@
 using System.Data.Entity.ModelConfiguration;
 using MessengerApi.Core.DbEntities;
 
-
 namespace MessengerApi.Core.FluentApiConfigurations
 {
     public class RelationsConfiguration :EntityTypeConfiguration<Relation>

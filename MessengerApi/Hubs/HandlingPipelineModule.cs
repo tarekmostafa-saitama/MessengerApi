@@ -1,15 +1,8 @@
-﻿
-using Microsoft.AspNet.SignalR.Hubs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using MessengerApi.Core;
-using MessengerApi.Persistence.Models;
+﻿using MessengerApi.Persistence.Models;
 using MessengerApi.Persistence.Models.IdentitySecurityHelpers;
-using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
-namespace MessengerAPI.Hubs
+namespace MessengerApi.Hubs
 {
     public class HandlingPipelineModule :HubPipelineModule
     {

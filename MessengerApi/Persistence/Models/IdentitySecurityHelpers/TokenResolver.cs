@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using MessengerApi;
 
 namespace MessengerApi.Persistence.Models.IdentitySecurityHelpers
 {   

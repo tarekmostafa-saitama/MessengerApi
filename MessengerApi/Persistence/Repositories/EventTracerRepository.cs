@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using MessengerApi.Core.DbEntities;
 using MessengerApi.Core.Enums;
 using MessengerApi.Core.Repositories;

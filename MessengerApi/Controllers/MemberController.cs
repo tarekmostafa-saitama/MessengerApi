@@ -1,18 +1,16 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using AutoMapper;
 using MessengerApi.Core;
 using MessengerApi.Core.DataTransferObjects;
 using MessengerApi.Core.DbEntities;
 using MessengerApi.Persistence.Identity;
 
-namespace Messenger_API.Controllers
+namespace MessengerApi.Controllers
 {
     [Authorize(Roles ="Member")]
     [RoutePrefix("api/Member")]

@@ -4,7 +4,6 @@ using System.Linq;
 using MessengerApi.Core.DbEntities;
 using MessengerApi.Core.Repositories;
 using MessengerApi.Persistence.Identity;
-using Ninject.Infrastructure.Language;
 
 namespace MessengerApi.Persistence.Repositories
 {

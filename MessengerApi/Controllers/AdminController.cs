@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using MessengerApi.Core;
 using MessengerApi.Core.Enums;
 using MessengerApi.Core.ViewModels;
-using MessengerApi.Persistence.Identity;
 
-namespace Messenger_API.Controllers
+namespace MessengerApi.Controllers
 {
     [Authorize(Roles ="Admin")]
     [RoutePrefix("api/Admin")]

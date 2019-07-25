@@ -1,4 +1,6 @@
-﻿using MessengerApi.Core.Repositories;
+﻿using MessangerApi.Core.Repositories;
+using MessengerApi.Core.Repositories;
+using MessengerApi.Persistence.Repositories;
 
 namespace MessengerApi.Core
 {
@@ -9,6 +11,7 @@ namespace MessengerApi.Core
         IRelationsRepository RelationsRepository { get; }
         IEventTracerRepository EventTracerRepository { get; }
         IErrorLogRepository ErrorLogRepository { get; }
+        IImageRepository ImageRepository { get; }
         void Complete();
     }
 }

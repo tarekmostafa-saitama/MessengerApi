@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Microsoft.AspNet.SignalR;
 using System.Threading.Tasks;
+using System.Web;
 using MessengerApi.Core;
 using MessengerApi.Core.Enums;
-using MessengerApi.Persistence;
-using MessengerApi.Persistence.Identity;
-using MessengerApi.Persistence.Models;
+using Microsoft.AspNet.SignalR;
 
-namespace MessengerAPI.Hubs
+namespace MessengerApi.Hubs
 {
     public class AnonymousHub : Hub
     {

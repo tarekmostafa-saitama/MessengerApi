@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
+using MessangerApi.Core.Repositories;
 
 namespace MessengerApi.Persistence.Repositories
 {
-    public class FileHandlerRepository
+    public class FileHandlerRepository :  IFileHandlerRepository
     {
         public FileHandlerRepository()
         {

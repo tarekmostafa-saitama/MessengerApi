@@ -6,20 +6,19 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 using MessengerApi.Core.DbEntities;
 using MessengerApi.Core.Enums;
 using MessengerApi.Core.ViewModels;
 using MessengerApi.Persistence.Identity;
 using MessengerApi.Persistence.Models;
+using MessengerApi.Providers;
+using MessengerApi.Results;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using MessengerApi.Results;
-using MessengerAPI.Providers;
 
 namespace MessengerApi.Controllers
 {

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using MessengerApi.Persistence.Models.IdentitySecurityHelpers;
 using Microsoft.AspNet.SignalR;
 
-namespace MessengerAPI.Hubs
+namespace MessengerApi.Hubs
 {
     public class DashboardHub : Hub
     {

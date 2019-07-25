@@ -12,7 +12,7 @@ using MessengerApi.Persistence.Models;
 using MessengerApi.Persistence.Models.IdentitySecurityHelpers;
 using Microsoft.AspNet.SignalR;
 
-namespace MessengerAPI.Hubs
+namespace MessengerApi.Hubs
 {
     public class MessagesHub : Hub
     {

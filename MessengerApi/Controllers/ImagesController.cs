@@ -1,19 +1,14 @@
-﻿using MessengerAPI.Hubs;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using MessengerApi.Core;
 using MessengerApi.Core.DbEntities;
 using MessengerApi.Core.Enums;
 using MessengerApi.Core.ViewModels;
-using MessengerApi.Persistence.Identity;
+using MessengerApi.Hubs;
 
-namespace Messenger_API.Controllers
+namespace MessengerApi.Controllers
 {
     [RoutePrefix("api/Image")]
     public class ImagesController : ApiController
@@ -26,40 +21,23 @@ namespace Messenger_API.Controllers
         }
         [Route("UploadMemberImage")]
         [HttpPost]
-        public IHttpActionResult UploadMemberImage([FromBody]MemberChatImage Data)
+        public IHttpActionResult UploadMemberImage([FromBody]MemberChatImage data)
         {
-            Data.Image = HttpContext.Current.Request.Files["Image"];
-            string NewName = Data.RelationId.ToString() + "@" + Guid.NewGuid().ToString();
-            string path = null;
-            if (Data.Image != null && Data.Image.ContentLength > 0)
-            {
-                var extention = Path.GetExtension(Data.Image.FileName);
-                path = Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~/Uploads/MCP/"), NewName + extention);
-                Data.Image.SaveAs(path);
-            }
-            path = "Uploads/MCP/" + NewName + Path.GetExtension(Data.Image.FileName);
-      
-            _unitOfWork.MessagesRepository.AddMessage(new Message { relation_id = Data.RelationId, Type = MessageType.ImageMessage, MessageData = path, Date = DateTime.UtcNow, Sender = Data.Sender });
+            data.Image = HttpContext.Current.Request.Files["Image"];
+            var path  = _unitOfWork.ImageRepository.SaveMemberImageMessage(data.Image,data.RelationId.ToString());
+
+            _unitOfWork.MessagesRepository.AddMessage(new Message { relation_id = data.RelationId, Type = MessageType.ImageMessage, MessageData = path, Date = DateTime.UtcNow, Sender = data.Sender });
             _unitOfWork.Complete();
             var hub = new MessagesHub(_unitOfWork);
-            hub.RoutingImageMessage(Data.RelationId, path, Data.Sender);
+            hub.RoutingImageMessage(data.RelationId, path, data.Sender);
             return Ok(path);
         }
         [Route("UploadAnonymousImage")]
         [HttpPost]
         public IHttpActionResult UploadAnonymousImage()
         {
-            var Image = HttpContext.Current.Request.Files["Image"];
-            string NewName = Guid.NewGuid().ToString();
-            string path = null;
-            if (Image != null && Image.ContentLength > 0)
-            {
-                var extention = Path.GetExtension(Image.FileName);
-                path = Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~/Uploads/ACP/"), NewName + extention);
-                Image.SaveAs(path);
-            }
-            path = "Uploads/ACP/" + NewName + Path.GetExtension(Image.FileName);
-
+            var image = HttpContext.Current.Request.Files["Image"];
+            var path = _unitOfWork.ImageRepository.SaveStrangerImageMessage(image);
             return Ok(path);
         }
   

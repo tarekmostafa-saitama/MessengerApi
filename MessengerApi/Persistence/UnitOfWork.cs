@@ -1,4 +1,5 @@
-﻿using MessengerApi.Core;
+﻿using MessangerApi.Core.Repositories;
+using MessengerApi.Core;
 using MessengerApi.Core.Repositories;
 using MessengerApi.Persistence.Identity;
 using MessengerApi.Persistence.Repositories;
@@ -13,7 +14,8 @@ namespace MessengerApi.Persistence
         public IRelationsRepository RelationsRepository { get; private set; }
         public IEventTracerRepository EventTracerRepository { get; private set; }
         public IErrorLogRepository ErrorLogRepository { get; private set; }
-        public UnitOfWork(ApplicationDbContext context)
+        public IImageRepository ImageRepository { get; private set; }
+        public UnitOfWork(ApplicationDbContext context,IFileHandlerRepository fileHandlerRepository)
         {
             _context = context;
             MembersRepository = new MembersRepository(context);
@@ -21,6 +23,7 @@ namespace MessengerApi.Persistence
             RelationsRepository = new RelationsRepository(context);
             EventTracerRepository = new EventTracerRepository(context);
             ErrorLogRepository = new ErrorLogRepository(context);
+            ImageRepository = new ImageRepository(fileHandlerRepository);
         }
 
         public void Complete()
