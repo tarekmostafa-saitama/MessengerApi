@@ -13,6 +13,7 @@ namespace MessengerApi.Core
         IErrorLogRepository ErrorLogRepository { get; }
         IImageRepository ImageRepository { get; }
         IAnonymousHubDataRepository AnonymousHubDataRepository { get; }
+        IMemberHubDataRepository MemberHubDataRepository { get; }
         void Complete();
     }
 }

@@ -16,6 +16,7 @@ namespace MessengerApi.Persistence
         public IErrorLogRepository ErrorLogRepository { get; private set; }
         public IImageRepository ImageRepository { get; private set; }
         public IAnonymousHubDataRepository AnonymousHubDataRepository { get; private set; }
+        public IMemberHubDataRepository MemberHubDataRepository { get; private set; }
         public UnitOfWork(ApplicationDbContext context,IFileHandlerRepository fileHandlerRepository)
         {
             _context = context;
@@ -26,6 +27,7 @@ namespace MessengerApi.Persistence
             ErrorLogRepository = new ErrorLogRepository(context);
             ImageRepository = new ImageRepository(fileHandlerRepository);
             AnonymousHubDataRepository = new AnonymousHubDataRepository();
+            MemberHubDataRepository = new MemberHubDataRepository();
         }
 
         public void Complete()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Castle.Components.DictionaryAdapter;
+using MessangerApi.Core.Repositories;
 
 namespace MessengerApi.Persistence.Repositories
 {

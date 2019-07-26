@@ -16,8 +16,7 @@ namespace MessengerApi.Hubs
 {
     public class MessagesHub : Hub
     {
-        private static Dictionary<string, string> _onlineMembers = new Dictionary<string, string>();
-        private static Dictionary<string, Guid> _onlineFriends = new Dictionary<string, Guid>();
+
 
         private static IUnitOfWork _unitOfWork;
         public MessagesHub(IUnitOfWork unitOfWork)
@@ -56,7 +55,7 @@ namespace MessengerApi.Hubs
             Groups.Add(Context.ConnectionId, username + "Member");
 
            
-            IEnumerable<FriendRelationDTO> FriendList = Mapper.Map<IEnumerable<Relation>, IEnumerable<FriendRelationDTO>>(relations).Select(c=> { c.State = _onlineFriends.ContainsKey(c.Id.ToString()); return c; });
+            IEnumerable<FriendRelationDTO> FriendList = Mapper.Map<IEnumerable<Relation>, IEnumerable<FriendRelationDTO>>(relations).Select(c=> { c.State = _unitOfWork.MemberHubDataRepository.CheckKeyExistOnlineFriends(c.Id.ToString()); return c; });
             foreach (Relation i in relations)
             {
                 RegisterMemberForNotification(i.Id);
@@ -81,14 +80,14 @@ namespace MessengerApi.Hubs
 
             Groups.Add(Context.ConnectionId, userName + "MemberStatus");
 
-            bool State = _onlineMembers.ContainsValue(userName);
+            bool state = _unitOfWork.MemberHubDataRepository.CheckValueExistOnlineMembers(userName);
             var user =_unitOfWork.MembersRepository.GetUser(userName);
             if(user == null)
             {
                 // User Not Found ??//
                 // Redirect to Not Found Page
             }
-            var info =  new {user.Image, Name = user.FullName, State };
+            var info =  new {user.Image, Name = user.FullName, State = state };
             Clients.Caller.displayDetails(info);
             var relation = _unitOfWork.RelationsRepository.GetRelationByKey(user.Id,secretKey);
             if (relation != null)
@@ -131,23 +130,24 @@ namespace MessengerApi.Hubs
         }
 
 
-        public void MemberOnline(string username)
+        public void MemberOnline(string userName)
         {
-            _onlineMembers.Add(Context.ConnectionId, username);
-            Clients.Group(username + "MemberStatus").changeState(true);
+            _unitOfWork.MemberHubDataRepository.AddToOnlineMembers(Context.ConnectionId,userName);
+            Clients.Group(userName + "MemberStatus").changeState(true);
         }
         public void MemberOffline()
         {
 
-            string  username = TokenResolver.Resolve(Context.QueryString["token"]).UserName;
+            string  userName = TokenResolver.Resolve(Context.QueryString["token"]).UserName;
        
-
-            if (_onlineMembers.ContainsKey(Context.ConnectionId))
+            
+            if (_unitOfWork.MemberHubDataRepository.CheckKeyExistOnlineMembers(Context.ConnectionId))
             {
-                _onlineMembers.Remove(Context.ConnectionId);
-                if (!_onlineMembers.ContainsValue(username))
+                _unitOfWork.MemberHubDataRepository.RemoveFromOnlineMembers(Context.ConnectionId);
+                
+                if (!_unitOfWork.MemberHubDataRepository.CheckValueExistOnlineMembers(userName))
                 {
-                    Clients.Group(username + "MemberStatus").changeState(false);
+                    Clients.Group(userName + "MemberStatus").changeState(false);
                 }
             }
 
@@ -156,20 +156,22 @@ namespace MessengerApi.Hubs
 
         public void FriendOnline(Guid relationId)
         {
-            _onlineFriends.Add(Context.ConnectionId, relationId);
+            _unitOfWork.MemberHubDataRepository.AddToOnlineFriends(Context.ConnectionId, relationId);
             Clients.Group(relationId + "FriendStatus").changeState(true, relationId);
         }
 
         public void FriendOffline()
         {
-            if (_onlineFriends.ContainsKey(Context.ConnectionId))
+            
+            if (_unitOfWork.MemberHubDataRepository.CheckKeyExistOnlineFriends(Context.ConnectionId))
             {
-                var relationid = _onlineFriends.First(x => x.Key == Context.ConnectionId).Value;
-                _onlineFriends.Remove(Context.ConnectionId);
-
-                if (!_onlineFriends.ContainsValue(relationid))
+                var relationId = _unitOfWork.MemberHubDataRepository.GetValueFromOnlineFriends(Context.ConnectionId);
+                
+                _unitOfWork.MemberHubDataRepository.RemoveFromOnlineFriends(Context.ConnectionId);
+                
+                if (!_unitOfWork.MemberHubDataRepository.CheckValueExistOnlineFriends(relationId))
                 {
-                    Clients.Group(relationid + "FriendStatus").changeState(false, relationid);
+                    Clients.Group(relationId + "FriendStatus").changeState(false, relationId);
                 }
             }
 

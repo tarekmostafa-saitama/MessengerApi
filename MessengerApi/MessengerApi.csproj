@@ -302,8 +302,10 @@
     <Compile Include="Persistence\Repositories\FileHandlerRepository.cs" />
     <Compile Include="Core\Repositories\IFileHandlerRepository.cs" />
     <Compile Include="Core\Repositories\IImageRepository.cs" />
-    <Compile Include="Persistence\Repositories\IAnonymousHubDataRepository.cs" />
+    <Compile Include="Core\Repositories\IAnonymousHubDataRepository.cs" />
     <Compile Include="Persistence\Repositories\ImageRepository.cs" />
+    <Compile Include="Core\Repositories\IMemberHubDataRepository.cs" />
+    <Compile Include="Persistence\Repositories\MemberHubDataRepository.cs" />
     <Compile Include="Persistence\Repositories\MembersRepository.cs" />
     <Compile Include="Persistence\Repositories\MessagesRepository.cs" />
     <Compile Include="Persistence\Repositories\RelationsRepository.cs" />
