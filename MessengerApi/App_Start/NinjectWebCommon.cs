@@ -1,3 +1,5 @@
+using MessengerApi.Persistence.Identity;
+
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(MessengerApi.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(MessengerApi.App_Start.NinjectWebCommon), "Stop")]
 
@@ -11,6 +13,7 @@ namespace MessengerApi.App_Start
     using Ninject;
     using Ninject.Web.Common;
     using Ninject.Extensions.Conventions;
+    using MessengerApi.Core;
 
     public static class NinjectWebCommon 
     {
@@ -65,7 +68,7 @@ namespace MessengerApi.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-           // kernel.Bind<IUnitOfWork>().To<UnitOfWork>();
+
         }        
     }
 }

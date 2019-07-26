@@ -12,6 +12,7 @@ namespace MessengerApi.Core
         IEventTracerRepository EventTracerRepository { get; }
         IErrorLogRepository ErrorLogRepository { get; }
         IImageRepository ImageRepository { get; }
+        IAnonymousHubDataRepository AnonymousHubDataRepository { get; }
         void Complete();
     }
 }

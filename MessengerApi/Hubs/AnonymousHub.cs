@@ -12,8 +12,7 @@ namespace MessengerApi.Hubs
     public class AnonymousHub : Hub
     {
 
-        private static List<string> _waitingList = new List<string>();
-        private static Dictionary<string, string> _pairs = new Dictionary<string, string>();
+
         // DI ???
         private readonly IUnitOfWork _unitOfWork ;
         public AnonymousHub(IUnitOfWork unitOfWork)
@@ -24,7 +23,7 @@ namespace MessengerApi.Hubs
         public void Routing(string msg)
         {
             msg = HttpUtility.HtmlEncode(msg);
-            foreach (KeyValuePair<string, string> i in _pairs)
+            foreach (KeyValuePair<string, string> i in _unitOfWork.AnonymousHubDataRepository.GetPairsData())
             {
                 if (i.Key == Context.ConnectionId || i.Value == Context.ConnectionId)
                 {
@@ -44,7 +43,7 @@ namespace MessengerApi.Hubs
         public void RoutingImages(string msg)
         {
 
-            foreach (KeyValuePair<string, string> i in _pairs)
+            foreach (KeyValuePair<string, string> i in _unitOfWork.AnonymousHubDataRepository.GetPairsData())
             {
                 if (i.Key == Context.ConnectionId || i.Value == Context.ConnectionId)
                 {
@@ -87,16 +86,17 @@ namespace MessengerApi.Hubs
         }
         public bool ConnectToStranger()
         {
-
-            string CallerId = Context.ConnectionId;
-            string ConnectionToConnect = _waitingList.FirstOrDefault();
-            if (ConnectionToConnect != null && ConnectionToConnect != Context.ConnectionId)
+            var callerId = Context.ConnectionId;
+            var connectionToConnect = _unitOfWork.AnonymousHubDataRepository.GetFirstWaitingList();
+            if (connectionToConnect != null && connectionToConnect != Context.ConnectionId)
             {
-                _waitingList.RemoveAt(0);
-                _pairs.Add(ConnectionToConnect, CallerId);
-                List<string> temp = new List<string>();
-                temp.Add(ConnectionToConnect);
-                temp.Add(Context.ConnectionId);
+                _unitOfWork.AnonymousHubDataRepository.RemoveFirstWaitingList();
+                _unitOfWork.AnonymousHubDataRepository.AddToPairsData(connectionToConnect,callerId);
+                var temp = new List<string>
+                {
+                    connectionToConnect,
+                    Context.ConnectionId
+                };
                 Clients.Clients(temp).serverMessage(new { Message = "connectedtoStranger", Date = DateTime.UtcNow, Sender = "Server" }); ;
                 return true;
             }
@@ -105,13 +105,13 @@ namespace MessengerApi.Hubs
         }
         public bool RegisterToWaitingList()
         {
-            string CallerId = Context.ConnectionId;
-            _waitingList.Add(CallerId);
+            var callerId = Context.ConnectionId;
+            _unitOfWork.AnonymousHubDataRepository.AddToWaitingList(callerId);
             return true;
         }
         public override Task OnReconnected()
         {
-            foreach (KeyValuePair<string, string> i in _pairs)
+            foreach (KeyValuePair<string, string> i in _unitOfWork.AnonymousHubDataRepository.GetPairsData())
             {
                 if (i.Key == Context.ConnectionId || i.Value == Context.ConnectionId)
                 {
@@ -144,17 +144,15 @@ namespace MessengerApi.Hubs
         }
         public bool LeaveFromPairs()
         {
-            foreach (KeyValuePair<string, string> i in _pairs)
+            foreach (var i in _unitOfWork.AnonymousHubDataRepository.GetPairsData())
             {
                 if (i.Key == Context.ConnectionId || i.Value == Context.ConnectionId)
                 {
-                    List<string> temp = new List<string>();
-                    temp.Add(i.Value);
-                    temp.Add(i.Key);
+                    var temp = new List<string> {i.Value, i.Key};
                     Clients.Clients(temp).serverMessage(new { Message = "disconnectStranger", Date = DateTime.UtcNow, Sender = "Server" }); ; ;
                     Clients.Clients(temp).changeTyping(false);
 
-                    _pairs.Remove(i.Key);
+                    _unitOfWork.AnonymousHubDataRepository.RemoveFromPairsData(i.Key);
                     return true;
                 }
             }
@@ -163,16 +161,16 @@ namespace MessengerApi.Hubs
         public bool LeaveFromWaitingList()
         {
 
-            if (_waitingList.Contains(Context.ConnectionId))
+            if (_unitOfWork.AnonymousHubDataRepository.CheckExistingWaitingList(Context.ConnectionId))
             {
-                _waitingList.Remove(Context.ConnectionId);
+                _unitOfWork.AnonymousHubDataRepository.RemoveFromWaitingList(Context.ConnectionId);
                 return true;
             }
             return false;
         }
         public void Typing(bool state)
         {
-            foreach (KeyValuePair<string, string> i in _pairs)
+            foreach (KeyValuePair<string, string> i in _unitOfWork.AnonymousHubDataRepository.GetPairsData())
             {
                 if (i.Key == Context.ConnectionId || i.Value == Context.ConnectionId)
                 {
