@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace MessangerApi.Core.Repositories
+namespace MessengerApi.Core.Repositories
 {
     public interface IImageRepository
     {

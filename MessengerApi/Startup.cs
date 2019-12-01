@@ -16,14 +16,21 @@ namespace MessengerApi
             ConfigureAuth(app);
 
 
-            var hubConfiguration = new HubConfiguration();
-            hubConfiguration.EnableDetailedErrors = true;
-            // hubConfiguration.EnableJavaScriptProxies = false;
+
+            var hubConfiguration = new HubConfiguration
+            {
+                EnableDetailedErrors = true,
+                EnableJavaScriptProxies = false
+              
+                
+            };
 
             GlobalHost.HubPipeline.AddModule(new HandlingPipelineModule());
             app.Map("/signalr", map =>
             {
+                
                 map.UseCors(CorsOptions.AllowAll);
+                
                 map.RunSignalR(hubConfiguration);
             });
 

@@ -8,7 +8,9 @@ using AutoMapper;
 using MessengerApi.Core;
 using MessengerApi.Core.DataTransferObjects;
 using MessengerApi.Core.DbEntities;
+using MessengerApi.Persistence;
 using MessengerApi.Persistence.Identity;
+using MessengerApi.Persistence.Repositories;
 
 namespace MessengerApi.Controllers
 {
@@ -16,11 +18,11 @@ namespace MessengerApi.Controllers
     [RoutePrefix("api/Member")]
     public class MemberController : ApiController
     {
-        private readonly IUnitOfWork _unitOfWork;
-        public MemberController(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
+        private readonly IUnitOfWork _unitOfWork = new UnitOfWork(new ApplicationDbContext(), new FileHandlerRepository());
+        //public MemberController(IUnitOfWork unitOfWork)
+        //{
+        //    _unitOfWork = unitOfWork;
+        //}
         // GET api/<controller>
         [HttpGet]
         [Route("CheckUserExist")]
@@ -30,9 +32,9 @@ namespace MessengerApi.Controllers
 
             bool found = _unitOfWork.MembersRepository.UserExist(name);
             if (found)
-                return Ok();
+                return Ok(true);
             else
-                return NotFound();
+                return Ok(false);
         }
         [HttpGet]
         [Route("Search")]
@@ -44,8 +46,10 @@ namespace MessengerApi.Controllers
         }
         [HttpGet]
         [Route("ChangeNickName")]
+
         public IHttpActionResult ChangeNickName(string nickName,Guid id)
         {
+            var i = User;
             var relation = _unitOfWork.RelationsRepository.GetRelation(id);
             if(relation != null)
             {
@@ -94,10 +98,10 @@ namespace MessengerApi.Controllers
             if (image != null && image.ContentLength > 0)
             {
                 var extenstion = Path.GetExtension(image.FileName);
-                path = Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~/Uploads/MPP/"), newName + extenstion);
+                path = Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~/Content/ProfilePictures/"), newName + extenstion);
                 image.SaveAs(path);
             }
-            path = "Uploads/MPP/" + newName + Path.GetExtension(image.FileName);
+            path = "Content/ProfilePictures/" + newName + Path.GetExtension(image.FileName);
 
             var context = new ApplicationDbContext();
             var user = context.Users.First(x => x.UserName == User.Identity.Name);

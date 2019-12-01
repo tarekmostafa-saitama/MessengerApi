@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Castle.Components.DictionaryAdapter;
-using MessangerApi.Core.Repositories;
+using MessengerApi.Core.Repositories;
 
 namespace MessengerApi.Persistence.Repositories
 {
     public class AnonymousHubDataRepository :  IAnonymousHubDataRepository
     {
-        private static List<string> _waitingList ;
-        private static Dictionary<string, string> _pairs ;
+        private static List<string> _waitingList = new List<string>();
+        private static Dictionary<string, string> _pairs = new Dictionary<string, string>() ;
         public AnonymousHubDataRepository()
         {
-            _pairs = new Dictionary<string, string>();
-            _waitingList = new List<string>();
+           
         }
 
         public void AddToWaitingList(string connectionId)

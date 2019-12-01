@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MessangerApi.Core.Repositories
+namespace MessengerApi.Core.Repositories
 {
     public interface IMemberHubDataRepository
     {

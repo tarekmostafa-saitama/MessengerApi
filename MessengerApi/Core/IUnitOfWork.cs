@@ -1,6 +1,4 @@
-﻿using MessangerApi.Core.Repositories;
-using MessengerApi.Core.Repositories;
-using MessengerApi.Persistence.Repositories;
+﻿using MessengerApi.Core.Repositories;
 
 namespace MessengerApi.Core
 {
@@ -14,6 +12,7 @@ namespace MessengerApi.Core
         IImageRepository ImageRepository { get; }
         IAnonymousHubDataRepository AnonymousHubDataRepository { get; }
         IMemberHubDataRepository MemberHubDataRepository { get; }
+        IVideoHubDataRepository VideoHubDataRepository { get; }
         void Complete();
     }
 }

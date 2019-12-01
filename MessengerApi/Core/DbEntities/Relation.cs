@@ -11,7 +11,7 @@ namespace MessengerApi.Core.DbEntities
         public DateTime StartDate { get; set; }
         public DateTime LastSeen { get; set; }
         public string SecretKey { get; set; }
-        public string user_id { get; set; }
+        public string UserId { get; set; }
         public ApplicationUser User { get; set; }
         public List<Message> Messages { get; set; }
     }

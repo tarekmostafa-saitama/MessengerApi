@@ -1,20 +1,20 @@
-using MessengerApi.Persistence.Identity;
+using System;
+using System.Web;
+using MessengerApi;
+using MessengerApi.Hubs;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using Ninject;
+using Ninject.Extensions.Conventions;
+using Ninject.Web.Common;
+using Ninject.Web.Common.WebHost;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(MessengerApi.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(MessengerApi.App_Start.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
 
-namespace MessengerApi.App_Start
+namespace MessengerApi
 {
-    using System;
-    using System.Web;
-
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
-    using Ninject;
-    using Ninject.Web.Common;
-    using Ninject.Extensions.Conventions;
-    using MessengerApi.Core;
-
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -49,8 +49,11 @@ namespace MessengerApi.App_Start
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-                RegisterServices(kernel);
+               
 
+
+                RegisterServices(kernel);
+                
                 kernel.Bind(x=> { x.FromThisAssembly().SelectAllClasses().BindDefaultInterface(); });
 
                 return kernel;
@@ -68,7 +71,7 @@ namespace MessengerApi.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-
+            GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new HubActivator(kernel));
         }        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using MessengerApi;
 using MessengerApi.Persistence.Identity;
 using MessengerApi.Providers;
 using Microsoft.AspNet.Identity;
@@ -6,9 +7,10 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-
+[assembly: OwinStartup(typeof(Startup))]
 namespace MessengerApi
 {
+
     public partial class Startup
     {
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
@@ -18,6 +20,7 @@ namespace MessengerApi
         // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);

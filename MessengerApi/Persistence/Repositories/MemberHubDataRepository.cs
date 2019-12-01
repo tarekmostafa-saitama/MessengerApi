@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using MessangerApi.Core.Repositories;
-using Microsoft.AspNet.SignalR.Hubs;
+using MessengerApi.Core.Repositories;
 
 namespace MessengerApi.Persistence.Repositories
 {
     public class MemberHubDataRepository : IMemberHubDataRepository
     {
-        private static Dictionary<string, string> _onlineMembers ;
-        private static Dictionary<string, Guid> _onlineFriends ;
+        private static Dictionary<string, string> _onlineMembers  = new Dictionary<string, string>();
+        private static Dictionary<string, Guid> _onlineFriends = new Dictionary<string, Guid>() ;
         public MemberHubDataRepository()
         {
-            _onlineFriends = new Dictionary<string, Guid>();
-            _onlineMembers = new Dictionary<string, string>();
+    
         }
 
         public void AddToOnlineMembers(string connectionId,string userName)

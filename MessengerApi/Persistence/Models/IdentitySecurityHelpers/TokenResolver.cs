@@ -4,7 +4,7 @@ using System.Security.Claims;
 
 namespace MessengerApi.Persistence.Models.IdentitySecurityHelpers
 {   
-    public class TokenResolver
+    public static class TokenResolver
     {
 
         public static TokenTicket Resolve(string token)

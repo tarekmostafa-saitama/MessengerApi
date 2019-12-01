@@ -22,11 +22,11 @@ namespace MessengerApi.Persistence.Repositories
         }
         public Relation GetRelationByKey(string userId,string key)
         {
-            return _context.Relations.FirstOrDefault(x => x.user_id == userId && x.SecretKey == key);
+            return _context.Relations.FirstOrDefault(x => x.UserId == userId && x.SecretKey == key);
         }
         public IEnumerable<Relation> GetRelations(string userId)
         {
-            return _context.Relations.Where(x => x.user_id == userId);
+            return _context.Relations.Where(x => x.UserId == userId);
         }
         public void RemoveRelation(Relation relation)
         {

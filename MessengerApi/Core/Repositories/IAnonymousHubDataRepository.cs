@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MessangerApi.Core.Repositories
+namespace MessengerApi.Core.Repositories
 {
     public interface IAnonymousHubDataRepository
     {

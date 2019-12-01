@@ -28,16 +28,14 @@ namespace MessengerApi.Persistence.Identity
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+          
+          
             modelBuilder.Configurations.Add(new RelationsConfiguration());
             modelBuilder.Configurations.Add(new MessagesConfiguration());
             modelBuilder.Configurations.Add(new EventsTracerConfiguration());
             modelBuilder.Configurations.Add(new ErrorsLogConfiguration());
 
-            modelBuilder.Entity<ApplicationUser>().ToTable("Users", "dbo");
-            modelBuilder.Entity<IdentityRole>().ToTable("Roles", "dbo");
-            modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles", "dbo");
-            modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims", "dbo");
-            modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins", "dbo");
+     
 
             base.OnModelCreating(modelBuilder);
 

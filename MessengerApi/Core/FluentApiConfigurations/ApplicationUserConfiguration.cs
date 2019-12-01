@@ -7,7 +7,10 @@ namespace MessengerApi.Core.FluentApiConfigurations
     {
         public ApplicationUserConfiguration()
         {
-            HasMany(i => i.Relations).WithRequired(c => c.User).HasForeignKey(c => c.user_id).WillCascadeOnDelete(true);
+            HasMany(i => i.Relations).WithRequired(c => c.User).HasForeignKey(c => c.UserId).WillCascadeOnDelete(true);
+
+   
+           
         }
     }
 }

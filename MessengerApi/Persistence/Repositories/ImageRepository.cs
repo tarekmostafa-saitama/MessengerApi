@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Web;
-using MessangerApi.Core.Repositories;
+using MessengerApi.Core.Repositories;
 
 namespace MessengerApi.Persistence.Repositories
 {
